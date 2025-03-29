@@ -3,3 +3,16 @@
 -- Add any additional options here
 
 vim.opt.mouse = ""
+
+-- Show which line your cursor is on
+vim.opt.cursorline = true
+vim.opt.cursorlineopt = "number"
+
+-- Keep OS clipboard independent
+vim.opt.clipboard = ""
+
+-- Enable break indent
+vim.opt.breakindent = true
+
+-- Minimal number of screen lines to keep above and below the cursor.
+vim.opt.scrolloff = 10

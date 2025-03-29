@@ -1,5 +1,16 @@
 return {
   {
+    "neovim/nvim-lspconfig",
+    opts = {
+      servers = {
+        emmet_language_server = {
+          filetypes = { "html", "htmldjango" },
+        },
+        cssls = {},
+      },
+    },
+  },
+  {
     "stevearc/conform.nvim",
     opts = {
       formatters_by_ft = {

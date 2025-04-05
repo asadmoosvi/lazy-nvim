@@ -11,7 +11,8 @@ vim.opt.cursorlineopt = "number"
 -- Keep OS clipboard independent
 vim.opt.clipboard = ""
 
--- Enable break indent
+-- Text wrapping
+vim.opt.wrap = true
 vim.opt.breakindent = true
 
 -- Minimal number of screen lines to keep above and below the cursor.

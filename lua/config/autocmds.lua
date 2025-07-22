@@ -13,6 +13,14 @@ vim.api.nvim_create_autocmd("FileType", {
   command = "setlocal formatoptions-=cro",
 })
 
+-- stop insert mode on terminal close
+vim.api.nvim_create_autocmd("TermClose", {
+  pattern = "*",
+  callback = function()
+    vim.cmd("stopinsert")
+  end,
+})
+
 -- run cpp files using <leader>r
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "cpp",

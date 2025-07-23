@@ -38,6 +38,25 @@ local function setup_code_runner(opts)
   end, { desc = opts.desc, buffer = true })
 end
 
+-- Configuration for supported filetypes
+local runners = {
+  cpp = {
+    runner_id = "cpp_runner",
+    command = "g++ %file% -o %output% && %output%",
+    desc = "Run C++ File",
+  },
+  python = {
+    runner_id = "python_runner",
+    command = "python %file%",
+    desc = "Run Python File",
+  },
+  sh = {
+    runner_id = "bash_runner",
+    command = "bash %file%",
+    desc = "Run Bash File",
+  },
+}
+
 -- Set up autocmds for supported filetypes
 function M.setup()
   -- Stop insert mode on terminal close
@@ -48,39 +67,16 @@ function M.setup()
     end,
   })
 
-  -- C++
-  vim.api.nvim_create_autocmd("FileType", {
-    pattern = "cpp",
-    callback = function()
-      setup_code_runner({
-        runner_id = "cpp_runner",
-        command = "g++ %file% -o %output% && %output%",
-        desc = "Run C++ File",
-      })
-    end,
-  })
+  -- Set up runners for all configured filetypes
+  local filetypes = {}
+  for ft, _ in pairs(runners) do
+    table.insert(filetypes, ft)
+  end
 
-  -- Python
   vim.api.nvim_create_autocmd("FileType", {
-    pattern = "python",
-    callback = function()
-      setup_code_runner({
-        runner_id = "python_runner",
-        command = "python %file%",
-        desc = "Run Python File",
-      })
-    end,
-  })
-
-  -- Bash
-  vim.api.nvim_create_autocmd("FileType", {
-    pattern = "sh",
-    callback = function()
-      setup_code_runner({
-        runner_id = "bash_runner",
-        command = "bash %file%",
-        desc = "Run Bash File",
-      })
+    pattern = filetypes,
+    callback = function(event)
+      setup_code_runner(runners[event.match])
     end,
   })
 end

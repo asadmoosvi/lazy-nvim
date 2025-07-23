@@ -40,6 +40,11 @@ end
 
 -- Configuration for supported filetypes
 local runners = {
+  c = {
+    runner_id = "c_runner",
+    command = "gcc %file% -o %output% && %output%",
+    desc = "Run C File",
+  },
   cpp = {
     runner_id = "cpp_runner",
     command = "g++ %file% -o %output% && %output%",

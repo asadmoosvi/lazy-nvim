@@ -22,6 +22,9 @@ local function setup_code_runner(opts)
     cmd = cmd:gsub("%%file%%", vim.fn.fnameescape(file))
     cmd = cmd:gsub("%%output%%", vim.fn.fnameescape(output_file))
 
+    -- save the current view state
+    local view = vim.fn.winsaveview()
+
     -- open the terminal in a split
     if vim.o.columns > 120 then
       vim.cmd("vertical terminal " .. cmd)
@@ -33,8 +36,9 @@ local function setup_code_runner(opts)
     local term_buf = vim.api.nvim_get_current_buf()
     vim.b[term_buf][opts.runner_id] = true
 
-    -- return focus to the previous window
+    -- return focus to the previous window and restore view state
     vim.cmd("wincmd p")
+    vim.fn.winrestview(view)
   end, { desc = opts.desc, buffer = true })
 end
 

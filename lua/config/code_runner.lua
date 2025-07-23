@@ -55,6 +55,11 @@ local runners = {
     command = "bash %file%",
     desc = "Run Bash File",
   },
+  lua = {
+    runner_id = "lua_runner",
+    command = "lua %file%",
+    desc = "Run Lua File",
+  },
 }
 
 -- Set up autocmds for supported filetypes

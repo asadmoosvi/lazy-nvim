@@ -79,3 +79,15 @@ vim.api.nvim_create_autocmd("FileType", {
     })
   end,
 })
+
+-- run bash files using <leader>r
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "sh",
+  callback = function()
+    setup_code_runner({
+      runner_id = "bash_runner",
+      command = "bash %file%",
+      desc = "Run Bash File",
+    })
+  end,
+})

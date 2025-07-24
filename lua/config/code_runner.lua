@@ -6,6 +6,9 @@ local M = {}
 -- Generic function to set up a code runner keymap
 local function setup_code_runner(opts)
   vim.keymap.set("n", "<leader>r", function()
+    -- save the current view state FIRST, before any cleanup
+    local view = vim.fn.winsaveview()
+
     -- find and close the previous terminal buffer
     for _, buf in ipairs(vim.api.nvim_list_bufs()) do
       if vim.bo[buf].buftype == "terminal" and vim.b[buf][opts.runner_id] then
@@ -21,9 +24,6 @@ local function setup_code_runner(opts)
     local cmd = opts.command
     cmd = cmd:gsub("%%file%%", vim.fn.fnameescape(file))
     cmd = cmd:gsub("%%output%%", vim.fn.fnameescape(output_file))
-
-    -- save the current view state
-    local view = vim.fn.winsaveview()
 
     -- open the terminal in a split
     if vim.o.columns > 120 then

@@ -69,6 +69,16 @@ local runners = {
     command = "lua %file%",
     desc = "Run Lua File",
   },
+  go = {
+    runner_id = "go_runner",
+    command = "go run %file%",
+    desc = "Run Go File",
+  },
+  rust = {
+    runner_id = "rust_runner",
+    command = "rustc %file% && %output%",
+    desc = "Run Rust File",
+  },
 }
 
 -- Set up autocmds for supported filetypes

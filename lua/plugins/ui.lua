@@ -8,6 +8,12 @@ return {
         hl.TabLineFill = {
           bg = c.none,
         }
+        -- flash.nvim jump label
+        hl.FlashLabel = {
+          fg = c.bg,
+          bg = c.magenta,
+          bold = true,
+        }
       end,
     },
   },

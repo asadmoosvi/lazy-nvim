@@ -76,7 +76,7 @@ local runners = {
   },
   rust = {
     runner_id = "rust_runner",
-    command = "rustc %file% && %output%",
+    command = '[ "$(cargo locate-project 2>/dev/null)" ] && cargo run -q || { rustc %file% -o %output% && %output%; }',
     desc = "Run Rust File",
   },
 }

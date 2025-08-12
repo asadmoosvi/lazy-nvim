@@ -3,9 +3,18 @@
 
 local M = {}
 
+-- Session state for code runner activation
+local runner_enabled = false
+
 -- Generic function to set up a code runner keymap
 local function setup_code_runner(opts)
   vim.keymap.set("n", "<leader>r", function()
+    -- Check if code runner is enabled
+    if not runner_enabled then
+      vim.notify("Code runner disabled. Run :CodeRunnerEnable first", vim.log.levels.WARN)
+      return
+    end
+
     -- save the current view state FIRST, before any cleanup
     local view = vim.fn.winsaveview()
 
@@ -83,6 +92,28 @@ local runners = {
 
 -- Set up autocmds for supported filetypes
 function M.setup()
+  -- Create user commands for code runner control
+  vim.api.nvim_create_user_command("CodeRunnerEnable", function()
+    runner_enabled = true
+    vim.notify("Code runner enabled for this session", vim.log.levels.INFO)
+  end, { desc = "Enable code runner for this session" })
+
+  vim.api.nvim_create_user_command("CodeRunnerDisable", function()
+    runner_enabled = false
+    vim.notify("Code runner disabled", vim.log.levels.INFO)
+  end, { desc = "Disable code runner" })
+
+  vim.api.nvim_create_user_command("CodeRunnerStatus", function()
+    local status = runner_enabled and "enabled" or "disabled"
+    vim.notify("Code runner is " .. status, vim.log.levels.INFO)
+  end, { desc = "Show code runner status" })
+
+  vim.api.nvim_create_user_command("CodeRunnerToggle", function()
+    runner_enabled = not runner_enabled
+    local status = runner_enabled and "enabled" or "disabled"
+    vim.notify("Code runner " .. status, vim.log.levels.INFO)
+  end, { desc = "Toggle code runner" })
+
   -- Stop insert mode on terminal close
   vim.api.nvim_create_autocmd("TermClose", {
     pattern = "*",

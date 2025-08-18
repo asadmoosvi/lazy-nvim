@@ -55,12 +55,12 @@ end
 local runners = {
   c = {
     runner_id = "c_runner",
-    command = "gcc %file% -o %output% && %output%",
+    command = "[ -f Makefile ] && make run || { gcc %file% -o %output% && %output%; }",
     desc = "Run C File",
   },
   cpp = {
     runner_id = "cpp_runner",
-    command = "g++ %file% -o %output% && %output%",
+    command = "[ -f Makefile ] && make run || { g++ %file% -o %output% && %output%; }",
     desc = "Run C++ File",
   },
   python = {

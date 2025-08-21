@@ -55,12 +55,12 @@ end
 local runners = {
   c = {
     runner_id = "c_runner",
-    command = "[ -f Makefile ] && make run || { gcc %file% -o %output% && %output%; }",
+    command = "if [ -f Makefile ]; then make run; else gcc %file% -o %output% && %output%; fi",
     desc = "Run C File",
   },
   cpp = {
     runner_id = "cpp_runner",
-    command = "[ -f Makefile ] && make run || { g++ %file% -o %output% && %output%; }",
+    command = "if [ -f Makefile ]; then make run; else g++ %file% -o %output% && %output%; fi",
     desc = "Run C++ File",
   },
   python = {
@@ -85,7 +85,7 @@ local runners = {
   },
   rust = {
     runner_id = "rust_runner",
-    command = '[ "$(cargo locate-project 2>/dev/null)" ] && cargo run -q || { rustc %file% -o %output% && %output%; }',
+    command = 'if [ "$(cargo locate-project 2>/dev/null)" ]; then cargo run -q; else rustc %file% -o %output% && %output%; fi',
     desc = "Run Rust File",
   },
 }

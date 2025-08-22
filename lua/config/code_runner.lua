@@ -55,12 +55,12 @@ end
 local runners = {
   c = {
     runner_id = "c_runner",
-    command = "if [ -f Makefile ]; then make run; else gcc %file% -o %output% && %output%; fi",
+    command = "if [ -f Makefile ]; then make run; else clang %file% -o %output% && %output%; fi",
     desc = "Run C File",
   },
   cpp = {
     runner_id = "cpp_runner",
-    command = "if [ -f Makefile ]; then make run; else g++ %file% -o %output% && %output%; fi",
+    command = "if [ -f Makefile ]; then make run; else clang++ %file% -o %output% && %output%; fi",
     desc = "Run C++ File",
   },
   python = {

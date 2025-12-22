@@ -65,7 +65,7 @@ local runners = {
   },
   python = {
     runner_id = "python_runner",
-    command = "python %file%",
+    command = "python3 %file%",
     desc = "Run Python File",
   },
   sh = {

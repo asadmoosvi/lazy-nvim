@@ -35,7 +35,7 @@ end
 -- Run the code for the current buffer's filetype
 local function run_code()
   if not runner_enabled then
-    vim.notify("Code runner disabled. Run :CodeRunnerEnable first", vim.log.levels.WARN)
+    vim.notify("Code runner disabled. Enable with <leader>re or :CodeRunnerEnable", vim.log.levels.WARN)
     return
   end
 
@@ -90,17 +90,21 @@ function M.setup()
     vim.notify("Code runner disabled", vim.log.levels.INFO)
   end, { desc = "Disable code runner" })
 
-  vim.api.nvim_create_user_command("CodeRunnerToggle", function()
-    runner_enabled = not runner_enabled
-    vim.notify("Code runner " .. (runner_enabled and "enabled" or "disabled"), vim.log.levels.INFO)
-  end, { desc = "Toggle code runner" })
 
   vim.api.nvim_create_user_command("CodeRunnerStatus", function()
     vim.notify("Code runner is " .. (runner_enabled and "enabled" or "disabled"), vim.log.levels.INFO)
   end, { desc = "Show code runner status" })
 
-  -- Global keymap — works for any supported filetype, no buffer-local autocmd needed
-  vim.keymap.set("n", "<leader>r", run_code, { desc = "Run Code" })
+  -- Register which-key group label
+  local ok, wk = pcall(require, "which-key")
+  if ok then
+    wk.add({ { "<leader>r", group = "Code Runner" } })
+  end
+
+  -- Keymaps under <leader>r group
+  vim.keymap.set("n", "<leader>rr", run_code, { desc = "Run Code" })
+  vim.keymap.set("n", "<leader>re", "<cmd>CodeRunnerEnable<cr>", { desc = "Enable Code Runner" })
+  vim.keymap.set("n", "<leader>rd", "<cmd>CodeRunnerDisable<cr>", { desc = "Disable Code Runner" })
 
   -- Stop insert mode when the runner terminal exits
   vim.api.nvim_create_autocmd("TermClose", {

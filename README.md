@@ -29,7 +29,8 @@ Includes a custom code runner for quick execution of single-file programs. Ships
 To add support for another language, edit the `runners` table in `lua/config/code_runner.lua`:
 
 ```lua
-javascript = "node %file%",
+javascript = { cmd = "node %file%", requires = "node" },
 ```
 
-Use `%file%` for the full file path and `%output%` for the path without extension (for compiled languages).
+* `cmd`: The shell command to execute. Use `%file%` for the full file path and `%output%` for the path without extension (for compiled languages).
+* `requires`: The name of the executable to check for before running (e.g. `node`, `clang`, `python3`).

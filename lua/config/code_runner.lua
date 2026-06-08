@@ -5,13 +5,13 @@ local M = {}
 
 -- Runner commands per filetype
 local runners = {
-  c = "if [ -f Makefile ]; then make run; else clang %file% -o %output% && %output%; fi",
-  cpp = "if [ -f Makefile ]; then make run; else clang++ %file% -o %output% && %output%; fi",
-  python = "python3 %file%",
-  sh = "bash %file%",
-  lua = "lua %file%",
-  go = "go run %file%",
-  rust = 'if [ "$(cargo locate-project 2>/dev/null)" ]; then cargo run -q; else rustc %file% -o %output% && %output%; fi',
+  c = { cmd = "if [ -f Makefile ]; then make run; else clang %file% -o %output% && %output%; fi", requires = "clang" },
+  cpp = { cmd = "if [ -f Makefile ]; then make run; else clang++ %file% -o %output% && %output%; fi", requires = "clang++" },
+  python = { cmd = "python3 %file%", requires = "python3" },
+  sh = { cmd = "bash %file%", requires = "bash" },
+  lua = { cmd = "lua %file%", requires = "lua" },
+  go = { cmd = "go run %file%", requires = "go" },
+  rust = { cmd = 'if [ "$(cargo locate-project 2>/dev/null)" ]; then cargo run -q; else rustc %file% -o %output% && %output%; fi', requires = "rustc" },
 }
 
 -- Session state
@@ -40,11 +40,18 @@ local function run_code()
   end
 
   local ft = vim.bo.filetype
-  local cmd = runners[ft]
-  if not cmd then
+  local runner = runners[ft]
+  if not runner then
     vim.notify("No runner configured for filetype: " .. ft, vim.log.levels.WARN)
     return
   end
+
+  if vim.fn.executable(runner.requires) == 0 then
+    vim.notify("Missing executable: " .. runner.requires .. " is not installed or not in PATH", vim.log.levels.ERROR)
+    return
+  end
+
+  local cmd = runner.cmd
 
   -- Save view state before any window changes
   local view = vim.fn.winsaveview()

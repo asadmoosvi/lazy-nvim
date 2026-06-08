@@ -14,7 +14,15 @@ git clone https://github.com/asadmoosvi/lazy-nvim ~/.config/nvim
 
 ## Code Runner
 
-Includes a custom code runner for quick execution of single-file programs. Press `<leader>r` to run the current file in a terminal split, automatically compiling first for compiled languages (C, C++, Rust). Supports Python, Bash, Lua, and Go as well, with smart detection of build systems (Makefile for C/C++, Cargo for Rust). Must be enabled each session with `:CodeRunnerEnable` to prevent accidental execution.
+Includes a custom code runner for quick execution of single-file programs. Ships with support for C, C++, Rust, Python, Bash, Lua, and Go out of the box, with smart detection of build systems (Makefile for C/C++, Cargo for Rust). Additional languages can be added easily. Must be enabled each session to prevent accidental execution.
+
+### Keybinds
+
+| Keybind      | Description                    |
+| ------------ | ------------------------------ |
+| `<leader>rr` | Run current file               |
+| `<leader>re` | Enable code runner for session |
+| `<leader>rd` | Disable code runner            |
 
 ### Adding Custom Runners
 

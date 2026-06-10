@@ -6,6 +6,9 @@ return {
       ensure_installed = {
         "htmldjango",
       },
+      indent = {
+        disable = { "go" },
+      },
     },
   },
   {

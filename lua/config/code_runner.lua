@@ -102,16 +102,14 @@ function M.setup()
     vim.notify("Code runner is " .. (runner_enabled and "enabled" or "disabled"), vim.log.levels.INFO)
   end, { desc = "Show code runner status" })
 
-  -- Register which-key group label
-  local ok, wk = pcall(require, "which-key")
-  if ok then
-    wk.add({ { "<leader>r", group = "Code Runner" } })
-  end
-
   -- Keymaps under <leader>r group
-  vim.keymap.set("n", "<leader>rr", run_code, { desc = "Run Code" })
-  vim.keymap.set("n", "<leader>re", "<cmd>CodeRunnerEnable<cr>", { desc = "Enable Code Runner" })
-  vim.keymap.set("n", "<leader>rd", "<cmd>CodeRunnerDisable<cr>", { desc = "Disable Code Runner" })
+  local wk = require("which-key")
+  wk.add({
+    { "<leader>r", group = "Code Runner", icon = { icon = " ", color = "orange" } },
+    { "<leader>rr", run_code, desc = "Run Code", icon = { icon = " ", color = "green" } },
+    { "<leader>re", "<cmd>CodeRunnerEnable<cr>", desc = "Enable Code Runner", icon = { icon = "󰗠 ", color = "green" } },
+    { "<leader>rd", "<cmd>CodeRunnerDisable<cr>", desc = "Disable Code Runner", icon = { icon = "󰅙 ", color = "red" } },
+  })
 
   -- Stop insert mode when the runner terminal exits
   vim.api.nvim_create_autocmd("TermClose", {

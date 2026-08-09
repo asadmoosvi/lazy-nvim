@@ -20,6 +20,7 @@ return {
       opts.ensure_installed = opts.ensure_installed or {}
       vim.list_extend(opts.ensure_installed, {
         -- add formatters, linters, or LSPs to ensure installed via Mason here
+        "mbake",
       })
     end,
   },
@@ -29,6 +30,7 @@ return {
       formatters_by_ft = {
         python = { "ruff_fix", "ruff_format" },
         htmldjango = { "djangofmt" },
+        make = { "bake" },
       },
       formatters = {
         ruff_fix = {

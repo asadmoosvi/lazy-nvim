@@ -48,21 +48,24 @@ return {
       opts.options.show_close_icon = false
     end,
   },
+  -- noice.nvim
   {
     "folke/noice.nvim",
-    opts = function(_, opts)
-      opts.routes = opts.routes or {}
-      table.insert(opts.routes, {
-        filter = {
-          event = "lsp",
-          kind = "progress",
-          cond = function(message)
-            local client = vim.tbl_get(message.opts, "progress", "client")
-            return client == "pyright"
-          end,
+    opts_extend = { "routes" },
+    opts = {
+      routes = {
+        {
+          filter = {
+            event = "lsp",
+            kind = "progress",
+            any = {
+              { find = "pyright" },
+              { find = "basedpyright" },
+            },
+          },
+          opts = { skip = true },
         },
-        opts = { skip = true },
-      })
-    end,
+      },
+    },
   },
 }

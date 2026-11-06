@@ -13,10 +13,6 @@ vim.api.nvim_create_autocmd("FileType", {
   command = "setlocal formatoptions-=cro",
 })
 
--- Load code runner logic from code_runner.lua
-local code_runner = require("config.code_runner")
-code_runner.setup()
-
 -- Set filetype to htmldjango for HTML files in templates directory
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   pattern = "*/templates/*.html",

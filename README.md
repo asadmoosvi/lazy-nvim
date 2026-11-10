@@ -14,7 +14,7 @@ git clone https://github.com/asadmoosvi/lazy-nvim ~/.config/nvim
 
 ## Code Runner
 
-Includes a custom code runner for quick execution of single-file programs. Ships with support for C, C++, Rust, Python, Bash, Lua, and Go out of the box, with smart detection of build systems (Makefile for C/C++, Cargo for Rust). Additional languages can be added easily. Must be enabled each session to prevent accidental execution.
+Includes a simple code runner for executing programs written in various programming languages.
 
 ### Keybinds
 

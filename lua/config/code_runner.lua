@@ -6,12 +6,18 @@ local M = {}
 -- Runner commands per filetype
 local runners = {
   c = { cmd = "if [ -f Makefile ]; then make run; else clang %file% -o %output% && %output%; fi", requires = "clang" },
-  cpp = { cmd = "if [ -f Makefile ]; then make run; else clang++ %file% -o %output% && %output%; fi", requires = "clang++" },
+  cpp = {
+    cmd = "if [ -f Makefile ]; then make run; else clang++ %file% -o %output% && %output%; fi",
+    requires = "clang++",
+  },
   python = { cmd = "python3 %file%", requires = "python3" },
   sh = { cmd = "bash %file%", requires = "bash" },
   lua = { cmd = "lua %file%", requires = "lua" },
   go = { cmd = "go run %file%", requires = "go" },
-  rust = { cmd = 'if [ "$(cargo locate-project 2>/dev/null)" ]; then cargo run -q; else rustc %file% -o %output% && %output%; fi', requires = "rustc" },
+  rust = {
+    cmd = 'if [ "$(cargo locate-project 2>/dev/null)" ]; then cargo run -q; else rustc %file% -o %output% && %output%; fi',
+    requires = "rustc",
+  },
 }
 
 -- Session state
@@ -97,7 +103,6 @@ function M.setup()
     vim.notify("Code runner disabled", vim.log.levels.INFO)
   end, { desc = "Disable code runner" })
 
-
   vim.api.nvim_create_user_command("CodeRunnerStatus", function()
     vim.notify("Code runner is " .. (runner_enabled and "enabled" or "disabled"), vim.log.levels.INFO)
   end, { desc = "Show code runner status" })
@@ -107,8 +112,18 @@ function M.setup()
   wk.add({
     { "<leader>r", group = "Code Runner", icon = { icon = " ", color = "orange" } },
     { "<leader>rr", run_code, desc = "Run Code", icon = { icon = " ", color = "green" } },
-    { "<leader>re", "<cmd>CodeRunnerEnable<cr>", desc = "Enable Code Runner", icon = { icon = "󰗠 ", color = "green" } },
-    { "<leader>rd", "<cmd>CodeRunnerDisable<cr>", desc = "Disable Code Runner", icon = { icon = "󰅙 ", color = "red" } },
+    {
+      "<leader>re",
+      "<cmd>CodeRunnerEnable<cr>",
+      desc = "Enable Code Runner",
+      icon = { icon = "󰗠 ", color = "green" },
+    },
+    {
+      "<leader>rd",
+      "<cmd>CodeRunnerDisable<cr>",
+      desc = "Disable Code Runner",
+      icon = { icon = "󰅙 ", color = "red" },
+    },
   })
 
   -- Stop insert mode when the runner terminal exits

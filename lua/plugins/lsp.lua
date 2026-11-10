@@ -10,7 +10,6 @@ return {
           filetypes = { "html", "htmldjango" },
         },
         cssls = {},
-        hyprls = {},
       },
     },
   },
